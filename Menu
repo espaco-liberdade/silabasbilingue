@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu: Sílabas Bilíngue - Casa Bilíngue Kids</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+        :root {
+            --primary-purple: #9b59b6;
+            --secondary-purple: #8e44ad;
+            --yellow-magic: #f1c40f;
+            --green-soft: #2ecc71;
+            --orange-soft: #e67e22;
+            --bg-color: #f4f1ff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #container-menu {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            border: 6px solid #e0d0ff;
+            text-align: center;
+            position: relative;
+        }
+
+        .product-header {
+            margin-bottom: 40px;
+        }
+
+        .main-brand {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary-purple);
+            font-size: clamp(28px, 6vw, 52px);
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .slogan {
+            font-size: 1.1em;
+            color: var(--orange-soft);
+            font-weight: 600;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .module-tag {
+            background: var(--yellow-magic);
+            color: #333;
+            display: inline-block;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3em;
+            margin-top: 15px;
+            box-shadow: 0 4px 0 #d4ac0d;
+        }
+
+        .author-name {
+            display: block;
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        /* Box de Aviso de Áudio */
+        .audio-warning {
+            background-color: #fff9c4;
+            border-left: 8px solid var(--yellow-magic);
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 15px;
+            text-align: left;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .audio-warning h4 {
+            margin: 0 0 10px 0;
+            color: #d35400;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        /* Grid de Letras */
+        .syllable-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .letter-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fff;
+            border: 4px solid #f0f0f0;
+            padding: 20px 10px;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-purple);
+            box-shadow: 0 12px 24px rgba(155, 89, 182, 0.15);
+        }
+
+        .letter-main {
+            font-family: 'Fredoka One', cursive;
+            font-size: 54px;
+            color: var(--secondary-purple);
+        }
+
+        .btn-play {
+            background: var(--green-soft);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #27ae60;
+            transition: transform 0.1s;
+        }
+
+        .btn-play:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #27ae60;
+        }
+
+        .btn-go {
+            background: var(--primary-purple);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Cores variadas para as letras */
+        .letter-card:nth-child(5n+1) .letter-main { color: #e74c3c; }
+        .letter-card:nth-child(5n+2) .letter-main { color: #3498db; }
+        .letter-card:nth-child(5n+3) .letter-main { color: #2ecc71; }
+        .letter-card:nth-child(5n+4) .letter-main { color: #f39c12; }
+        .letter-card:nth-child(5n+5) .letter-main { color: #9b59b6; }
+
+        @media (max-width: 600px) {
+            .syllable-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                gap: 15px;
+            }
+            .letter-main { font-size: 42px; }
+            #container-menu { padding: 20px; }
+            .main-brand { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="container-menu">
+    <!-- Cabeçalho do Produto -->
+    <header class="product-header">
+        <h1 class="main-brand">CASA BILÍNGUE KIDS</h1>
+        <span class="slogan">O jeito mais natural de Criar um pequeno bilíngue</span>
+        <div class="module-tag">Módulo Sílaba Bilíngue</div>
+        <span class="author-name">Autor: Fábio de Almeida</span>
+    </header>
+
+    <!-- Aviso de Compatibilidade -->
+    <div class="audio-warning">
+        <h4>🔊 Compatibilidade de Áudio</h4>
+        <p>Para melhor funcionamento dos áudios, utilize o <strong>Google Chrome (Android)</strong> ou <strong>Safari (iPhone)</strong>.</p>
+        <p>O navegador da Xiaomi (Mi Browser) não é compatível. No Android:</p>
+        <ol>
+            <li>Vá em <strong>Configurações</strong> → <strong>Aplicativos padrão</strong></li>
+            <li>Selecione <strong>Navegador</strong> → <strong>Chrome</strong></li>
+        </ol>
+    </div>
+
+    <!-- Menu de Letras -->
+    <div class="syllable-grid" id="alphabet-menu">
+        <!-- Gerado via Script -->
+    </div>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px dashed #ddd; color: #aaa; font-size: 0.8em;">
+        &copy; Casa Bilíngue Kids - Fábio de Almeida
+    </footer>
+</div>
+
+<script>
+    const consonants = ["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
+    const menuContainer = document.getElementById('alphabet-menu');
+
+    function createMenu() {
+        consonants.forEach(letter => {
+            const card = document.createElement('div');
+            card.className = 'letter-card';
+            const link = `https://github.com/espaco-liberdade/silabasbilingue.git/${letter}`;
+
+            card.innerHTML = `
+                <div class="letter-main">${letter}</div>
+                <button class="btn-play" title="Ouvir som" onclick="event.stopPropagation(); speakLetter('${letter}')">▶️</button>
+                <div class="btn-go">Abrir Aula</div>
+            `;
+            
+            card.onclick = () => window.open(link, '_blank');
+            menuContainer.appendChild(card);
+        });
+    }
+
+    function speakLetter(letter) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(letter);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Siri')));
+            if (enVoice) utterance.voice = enVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+    }
+
+    window.onload = createMenu;
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+</script>
+
+</body>
+</html>
