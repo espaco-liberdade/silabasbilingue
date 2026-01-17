@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -197,7 +196,7 @@
     <!-- Aviso de Compatibilidade -->
     <div class="audio-warning">
         <h4>🔊 Compatibilidade de Áudio</h4>
-        <p>Para melhor funcionamento dos áudios, utilize o <strong>Google Chrome (Android)</strong> ou <strong>Safari (iPhone)</strong>.</p>
+        <p>Para melhor funcionamento dos áudios, utilize o <strong>Google Chrome (Android/PC)</strong> ou <strong>Safari (iPhone)</strong>.</p>
         <p>O navegador da Xiaomi (Mi Browser) não é compatível. No Android:</p>
         <ol>
             <li>Vá em <strong>Configurações</strong> → <strong>Aplicativos padrão</strong></li>
@@ -223,7 +222,9 @@
         consonants.forEach(letter => {
             const card = document.createElement('div');
             card.className = 'letter-card';
-            const link = `https://github.com/espaco-liberdade/silabasbilingue.git/${letter}`;
+            
+            // NOVO PADRÃO DE LINK: Corrigido para URL web real no GitHub Pages
+            const link = `https://espaco-liberdade.github.io/silabasbilingue/${letter}.html`;
 
             card.innerHTML = `
                 <div class="letter-main">${letter}</div>
