@@ -223,13 +223,12 @@
             const card = document.createElement('div');
             card.className = 'letter-card';
             
-            // PADRÃO DE LINK WEB: espaco-liberdade.github.io/repositorio/Arquivo.html
-            // Isso garante que o navegador abra a página renderizada.
-            const link = `https://espaco-liberdade.github.io/silabasbilingue/${letter}.html`;
+            // PADRÃO DE LINK SOLICITADO: https://espaco-liberdade.github.io/silabasbilingue[LETRA]/
+            const link = `https://espaco-liberdade.github.io/silabasbilingue${letter}/`;
 
             card.innerHTML = `
                 <div class="letter-main">${letter}</div>
-                <button class="btn-play" title="Ouvir som" onclick="event.stopPropagation(); speakLetter('${letter}')">▶️</button>
+                <button class="btn-play" title="Ouvir som em Inglês" onclick="event.stopPropagation(); speakLetter('${letter}')">▶️</button>
                 <div class="btn-go">Abrir Aula</div>
             `;
             
@@ -242,12 +241,13 @@
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(letter);
+            // Configurado para Inglês (EUA)
             utterance.lang = 'en-US';
-            utterance.rate = 0.85;
+            utterance.rate = 0.8;
             
             const voices = window.speechSynthesis.getVoices();
-            // Tenta encontrar uma voz em inglês para a letra soar "bilíngue"
-            const enVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Siri')));
+            // Tenta encontrar uma voz em inglês de alta qualidade
+            const enVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Siri') || v.name.includes('Samantha')));
             if (enVoice) utterance.voice = enVoice;
 
             window.speechSynthesis.speak(utterance);
@@ -255,7 +255,7 @@
     }
 
     window.onload = createMenu;
-    // Necessário para garantir que as vozes carreguem em alguns navegadores
+    // Necessário para navegadores que carregam vozes de forma assíncrona
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 </script>
 
