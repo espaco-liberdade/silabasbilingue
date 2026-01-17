@@ -223,7 +223,8 @@
             const card = document.createElement('div');
             card.className = 'letter-card';
             
-            // NOVO PADRÃO DE LINK: Corrigido para URL web real no GitHub Pages
+            // PADRÃO DE LINK WEB: espaco-liberdade.github.io/repositorio/Arquivo.html
+            // Isso garante que o navegador abra a página renderizada.
             const link = `https://espaco-liberdade.github.io/silabasbilingue/${letter}.html`;
 
             card.innerHTML = `
@@ -245,6 +246,7 @@
             utterance.rate = 0.85;
             
             const voices = window.speechSynthesis.getVoices();
+            // Tenta encontrar uma voz em inglês para a letra soar "bilíngue"
             const enVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Siri')));
             if (enVoice) utterance.voice = enVoice;
 
@@ -253,6 +255,7 @@
     }
 
     window.onload = createMenu;
+    // Necessário para garantir que as vozes carreguem em alguns navegadores
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 </script>
 
