@@ -272,8 +272,8 @@
             const card = document.createElement('div');
             card.className = 'letter-card';
             
-            // Link para a pasta da sílaba (ex: /silabasbilingueb/)
-            const link = `https://espaco-liberdade.github.io/silabasbilingue${letter.toLowerCase()}/`;
+            // Link CORRIGIDO: Usa a letra Maiúscula diretamente (ex: silabasbilingueB)
+            const link = `https://espaco-liberdade.github.io/silabasbilingue${letter}/`;
 
             card.innerHTML = `
                 <div class="letter-main">${letter}</div>
@@ -290,12 +290,12 @@
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
             
-            // Para soletrar a letra individualmente em inglês, às vezes é melhor adicionar um ponto ou espaço
+            // Para soletrar a letra individualmente em inglês
             const utterance = new SpeechSynthesisUtterance(letter);
             
             if (voices.length === 0) loadVoices();
 
-            // Estratégia de Voz Otimizada (Samantha, Google US, etc.)
+            // Estratégia de Voz Otimizada
             const targetVoice = 
                 voices.find(v => v.lang === 'en-US' && v.name.includes('Samantha')) || 
                 voices.find(v => v.lang === 'en-US' && v.name.includes('Ava')) ||      
@@ -310,7 +310,7 @@
                 utterance.lang = 'en-US'; 
             }
 
-            utterance.rate = 0.8; // Velocidade um pouco mais lenta para clareza
+            utterance.rate = 0.8; // Velocidade fluida
             
             window.speechSynthesis.speak(utterance);
         } else {
@@ -320,10 +320,8 @@
 
     window.onload = function() {
         createMenu();
-        // Tenta carregar vozes novamente após o carregamento da página
         setTimeout(loadVoices, 500);
         
-        // Desbloqueio de áudio para iOS (opcional, mas recomendado)
         document.body.addEventListener('click', function() {
             if (window.AudioContext || window.webkitAudioContext) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
