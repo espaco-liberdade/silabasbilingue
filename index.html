@@ -16,6 +16,7 @@
             --green-soft: #2ecc71;
             --orange-soft: #e67e22;
             --bg-color: #f4f1ff;
+            --btn-home-bg: #3498db;
         }
 
         body {
@@ -37,6 +38,39 @@
             border: 6px solid #e0d0ff;
             text-align: center;
             position: relative;
+        }
+
+        /* Botão Menu Principal */
+        .nav-top {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-home {
+            background-color: var(--btn-home-bg);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 0 #2980b9;
+            transition: transform 0.2s;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px);
+            background-color: #2980b9;
+        }
+
+        .btn-home:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 0 #2980b9;
         }
 
         .product-header {
@@ -119,6 +153,8 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
         }
 
         .letter-card:hover {
@@ -147,6 +183,7 @@
             cursor: pointer;
             box-shadow: 0 4px 0 #27ae60;
             transition: transform 0.1s;
+            z-index: 2;
         }
 
         .btn-play:active {
@@ -185,6 +222,13 @@
 <body>
 
 <div id="container-menu">
+    <!-- Botão Voltar ao Menu Principal -->
+    <div class="nav-top">
+        <a href="https://espaco-liberdade.github.io/CasaBilingueKids/" class="btn-home">
+            🏠 Menu Principal
+        </a>
+    </div>
+
     <!-- Cabeçalho do Produto -->
     <header class="product-header">
         <h1 class="main-brand">CASA BILÍNGUE KIDS</h1>
@@ -195,13 +239,8 @@
 
     <!-- Aviso de Compatibilidade -->
     <div class="audio-warning">
-        <h4>🔊 Compatibilidade de Áudio</h4>
-        <p>Para melhor funcionamento dos áudios, utilize o <strong>Google Chrome (Android/PC)</strong> ou <strong>Safari (iPhone)</strong>.</p>
-        <p>O navegador da Xiaomi (Mi Browser) não é compatível. No Android:</p>
-        <ol>
-            <li>Vá em <strong>Configurações</strong> → <strong>Aplicativos padrão</strong></li>
-            <li>Selecione <strong>Navegador</strong> → <strong>Chrome</strong></li>
-        </ol>
+        <h4>🔊 Dica de Áudio</h4>
+        <p>Para ouvir a pronúncia correta em Inglês, use o <strong>Chrome</strong> (Android/PC) ou <strong>Safari</strong> (iPhone). Clique no ícone de "Play" para ouvir a letra.</p>
     </div>
 
     <!-- Menu de Letras -->
@@ -210,21 +249,31 @@
     </div>
 
     <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px dashed #ddd; color: #aaa; font-size: 0.8em;">
-        &copy; Casa Bilíngue Kids - Fábio de Almeida
+        &copy; 2024 Casa Bilíngue Kids - Fábio de Almeida
     </footer>
 </div>
 
 <script>
     const consonants = ["B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
     const menuContainer = document.getElementById('alphabet-menu');
+    let voices = [];
+
+    function loadVoices() {
+        voices = window.speechSynthesis.getVoices();
+    }
+
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+    loadVoices();
 
     function createMenu() {
         consonants.forEach(letter => {
             const card = document.createElement('div');
             card.className = 'letter-card';
             
-            // PADRÃO DE LINK SOLICITADO: https://espaco-liberdade.github.io/silabasbilingue[LETRA]/
-            const link = `https://espaco-liberdade.github.io/silabasbilingue${letter}/`;
+            // Link para a pasta da sílaba (ex: /silabasbilingueb/)
+            const link = `https://espaco-liberdade.github.io/silabasbilingue${letter.toLowerCase()}/`;
 
             card.innerHTML = `
                 <div class="letter-main">${letter}</div>
@@ -232,7 +281,7 @@
                 <div class="btn-go">Abrir Aula</div>
             `;
             
-            card.onclick = () => window.open(link, '_blank');
+            card.onclick = () => window.open(link, '_self');
             menuContainer.appendChild(card);
         });
     }
@@ -240,23 +289,51 @@
     function speakLetter(letter) {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(letter);
-            // Configurado para Inglês (EUA)
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8;
             
-            const voices = window.speechSynthesis.getVoices();
-            // Tenta encontrar uma voz em inglês de alta qualidade
-            const enVoice = voices.find(v => v.lang.startsWith('en-') && (v.name.includes('Google') || v.name.includes('Siri') || v.name.includes('Samantha')));
-            if (enVoice) utterance.voice = enVoice;
+            // Para soletrar a letra individualmente em inglês, às vezes é melhor adicionar um ponto ou espaço
+            const utterance = new SpeechSynthesisUtterance(letter);
+            
+            if (voices.length === 0) loadVoices();
 
+            // Estratégia de Voz Otimizada (Samantha, Google US, etc.)
+            const targetVoice = 
+                voices.find(v => v.lang === 'en-US' && v.name.includes('Samantha')) || 
+                voices.find(v => v.lang === 'en-US' && v.name.includes('Ava')) ||      
+                voices.find(v => v.lang === 'en-US' && v.name.includes('Google US English')) || 
+                voices.find(v => v.lang === 'en-US' && (v.name.includes('Premium') || v.name.includes('Enhanced'))) ||
+                voices.find(v => v.lang === 'en-US');
+
+            if (targetVoice) { 
+                utterance.voice = targetVoice; 
+                utterance.lang = targetVoice.lang; 
+            } else { 
+                utterance.lang = 'en-US'; 
+            }
+
+            utterance.rate = 0.8; // Velocidade um pouco mais lenta para clareza
+            
             window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Seu navegador não suporta áudio.");
         }
     }
 
-    window.onload = createMenu;
-    // Necessário para navegadores que carregam vozes de forma assíncrona
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    window.onload = function() {
+        createMenu();
+        // Tenta carregar vozes novamente após o carregamento da página
+        setTimeout(loadVoices, 500);
+        
+        // Desbloqueio de áudio para iOS (opcional, mas recomendado)
+        document.body.addEventListener('click', function() {
+            if (window.AudioContext || window.webkitAudioContext) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioContext();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            }
+        }, { once: true });
+    };
 </script>
 
 </body>
